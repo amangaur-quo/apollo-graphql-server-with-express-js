@@ -1,0 +1,77 @@
+query GET_POSTS {
+  getPosts {
+    id
+    title
+    content
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+query GET_POST_BY_ID($postId: ID!) {
+  getPostById(id: $postId) {
+    id
+    title
+    content
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+query AUTHENTICATE_USER($email: String!, $password: String!) {
+  authenticateUser(email: $email, password: $password) {
+    user {
+      id
+      email
+      name
+      createdAt
+      updatedAt
+    }
+    token
+  }
+}
+
+mutation REGISTER_USER($newUser: UserInput!) {
+  registerUser(newUser: $newUser) {
+    user {
+      id
+      email
+      name
+      createdAt
+      updatedAt
+    }
+    token
+  }
+}
+
+mutation CREATE_POST($post: PostInput!) {
+  createPost(post: $post) {
+    id
+    title
+    content
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+mutation EDIT_POST_BY_ID($editPostId: ID!, $updatedPost: PostInput!) {
+  editPostById(id: $editPostId, updatedPost: $updatedPost) {
+    id
+    title
+    content
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DELETE_POST_BY_ID($deletePostById: ID!) {
+  deletePostById(id: $deletePostById) {
+    id
+    message
+    success
+  }
+}
