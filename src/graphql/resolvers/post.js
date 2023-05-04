@@ -23,6 +23,6 @@ export default {
     deletePostById: async (_, { id }) => {
       await Post.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
       return { id, message: 'Deleted successfully', success: true };
-    }
+    },
   },
 };

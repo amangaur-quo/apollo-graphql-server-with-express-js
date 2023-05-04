@@ -1,11 +1,11 @@
 import { gql } from 'graphql-tag';
 
 export default gql`
-    extend type Query {
-        info: String!
-    }
+  extend type Query {
+    info: String!
+  }
 
-    extend type Mutation {
-        imageUploader(file: String!): String!
-    }
+  extend type Mutation {
+    imageUploader(file: String!): String!
+  }
 `;

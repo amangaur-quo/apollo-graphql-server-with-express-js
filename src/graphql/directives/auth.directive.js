@@ -1,6 +1,5 @@
-
-import { mapSchema, getDirective, MapperKind } from "@graphql-tools/utils";
-import { defaultFieldResolver } from "graphql";
+import { defaultFieldResolver } from 'graphql';
+import { mapSchema, getDirective, MapperKind } from '@graphql-tools/utils';
 
 export const authDirectiveTransformer = (schema, directiveName) => {
   return mapSchema(schema, {
@@ -18,7 +17,7 @@ export const authDirectiveTransformer = (schema, directiveName) => {
             return result;
           } else {
             throw new Error(
-              "You must be authenticated user to get this information."
+              'You must be authenticated user to get this information.'
             );
           }
         };
