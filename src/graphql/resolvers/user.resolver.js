@@ -1,10 +1,9 @@
-import { User } from '../../models';
 import { compare, hash } from 'bcrypt';
 import { issueToken, serializeUser } from '../../functions';
 
 export default {
   Query: {
-    authenticateUser: async (_, { email, password }) => {
+    authenticateUser: async (_, { email, password }, { User }) => {
       try {
         let user = await User.findOne({ email });
         if (!user) {
@@ -25,46 +24,42 @@ export default {
       }
     },
 
-    authUserProfile: async (_, {}, { user }) => user,
+    authUserProfile: async (_, {}, { authUser }) => authUser, 
 
-    getUsers: async () => {
-      return User.find({ isDeleted: false });
-    },
-
-    getUserById: async (_, { id }) => {
-      return User.findById(id, { isDeleted: false });
+    getUsers: async (_, {}, { User }) => {
+      return User.find();
     },
   },
 
   Mutation: {
-    registerUser: async (_, { newUser }) => {
+    registerUser: async (_, { user }, { User }) => {
       try {
-        const { email } = newUser;
-        let user;
-        user = await User.findOne({ email });
-        if (user) {
+        const { email } = user;
+        let userInfo;
+        userInfo = await User.findOne({ email });
+        if (userInfo) {
           throw new Error(
             'Email already exist. Please try using another email address.'
           );
         }
-        user = new User(newUser);
-        user.password = await hash(newUser.password, 10);
-        let result = await User.create(user);
-        result = result.toObject();
-        result.id = result._id;
-        result = serializeUser(result);
-        let token = await issueToken(result);
-        return { user: result, token };
+        userInfo = new User(user);
+        userInfo.password = await hash(user.password, 10);
+        let newUser = await User.create(userInfo);
+        newUser = newUser.toObject();
+        newUser.id = newUser._id;
+        newUser = serializeUser(newUser);
+        let token = await issueToken(newUser);
+        return { user: newUser, token };
       } catch (error) {
         throw new Error(error.message, 400);
       }
     },
 
-    editUserById: async (_, { id, updatedUser }) => {
-      return User.findByIdAndUpdate(id, { ...updatedUser }, { new: true });
+    editUserById: async (_, { id, user }, { User }) => {
+      return User.findByIdAndUpdate(id, { ...user }, { new: true });
     },
 
-    deleteUserById: async (_, { id }) => {
+    deleteUserById: async (_, { id }, { User }) => {
       await User.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
       return { id, message: 'Deleted successfully', success: true };
     },

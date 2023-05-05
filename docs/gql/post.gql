@@ -1,0 +1,71 @@
+mutation CREATE_POST($post: PostInput!) {
+  createPost(post: $post) {
+    id
+    title
+    content
+    author {
+      id
+      email
+      name
+    }
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+query GET_POSTS {
+  getPosts {
+    id
+    title
+    content
+    author {
+      id
+      email
+      name
+    }
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+query GET_POST_BY_ID($id: ID!) {
+  getPostById(id: $id) {
+    id
+    title
+    content
+    author {
+      id
+      email
+      name
+    }
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+mutation EDIT_POST_BY_ID($id: ID!, $post: PostInput!) {
+  editPostById(id: $id, post: $post) {
+    id
+    title
+    content
+    author {
+      id
+      email
+      name
+    }
+    featuredImgae
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DELETE_POST_BY_ID($id: ID!) {
+  deletePostById(id: $id) {
+    id
+    message
+    success
+  }
+}

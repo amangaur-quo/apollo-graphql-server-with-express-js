@@ -2,16 +2,15 @@ import { gql } from 'graphql-tag';
 
 export default gql`
   extend type Query {
-    authUserProfile: User! @isAuth
     authenticateUser(email: String!, password: String!): AuthResponse!
+    authUserProfile: User! @isAuth
     getUsers: [User!]! @isAuth
-    getUserById(id: ID!): User! @isAuth
   }
 
   extend type Mutation {
-    registerUser(newUser: UserInput!): AuthResponse!
-    editUserById(id: ID!, updatedPost: UserInput!): User! @isAuth
-    deleteUserById(id: ID!): UserDeletionNotification! @isAuth
+    registerUser(user: UserInput!): AuthResponse!
+    editUserById(id: ID!, user: UserInput!): User! @isAuth
+    deleteUserById(id: ID!): PushNotification! @isAuth
   }
 
   input UserInput {
@@ -32,11 +31,5 @@ export default gql`
   type AuthResponse {
     user: User!
     token: String!
-  }
-
-  type UserDeletionNotification {
-    id: ID!
-    message: String!
-    success: Boolean!
   }
 `;

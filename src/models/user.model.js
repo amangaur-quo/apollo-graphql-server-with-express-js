@@ -14,12 +14,20 @@ const userSchema = new Schema(
       type: String,
       required: true,
     },
-    isDeleted: {
-      type: Boolean,
-      default: false,
+    deletedAt: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }
 );
+
+userSchema.pre('find', function() {
+  this.where({ deletedAt: null });
+});
+
+userSchema.pre('findOne', function() {
+  this.where({ deletedAt: null });
+});
 
 export const User = model('users', userSchema);

@@ -8,7 +8,7 @@ export default gql`
 
   extend type Mutation {
     createPost(post: PostInput!): Post! @isAuth
-    editPostById(id: ID!, updatedPost: PostInput!): Post! @isAuth
+    editPostById(id: ID!, post: PostInput!): Post! @isAuth
     deletePostById(id: ID!): PushNotification! @isAuth
   }
 
@@ -27,11 +27,5 @@ export default gql`
     updatedAt: String
     isDeleted: Boolean
     author: User!
-  }
-
-  type PushNotification {
-    id: ID!
-    message: String!
-    success: Boolean!
   }
 `;

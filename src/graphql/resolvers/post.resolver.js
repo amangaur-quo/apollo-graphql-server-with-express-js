@@ -1,26 +1,46 @@
 export default {
   Query: {
     getPosts: async (_, {}, { Post }) => {
-      return Post.find({ isDeleted: false }).populate('author');
+      return Post.find().populate('author');
     },
 
     getPostById: async (_, { id }, { Post }) => {
-      return Post.findById(id, { isDeleted: false }).populate('author');
+      return Post.findById(id).populate('author');
     },
   },
 
   Mutation: {
-    createPost: async (_, { post }, { Post, user }) => {
-      const newPost = await Post.create({ ...post, author: user._id });
+    createPost: async (_, { post }, { Post, authUser }) => {
+      const newPost = await Post.create({ ...post, author: authUser._id });
       return newPost.populate('author');
     },
 
-    editPostById: async (_, { id, updatedPost }, { Post }) => {
-      return Post.findByIdAndUpdate(id, { ...updatedPost }, { new: true }).populate('author');
+    editPostById: async (_, { id, post }, { Post, authUser }) => {
+      try {
+        const updatedPost = await Post.findOneAndUpdate(
+          { _id: id, author: authUser._id }, 
+          { ...post }, 
+          { new: true }
+        ).populate('author');
+        
+        if (!updatedPost) {
+          throw new Error('Failed to update the post. Please try again later.');
+        }
+        return updatedPost;
+      }
+      catch (error) {
+        throw new Error(error.message, 400);
+      }
     },
 
     deletePostById: async (_, { id }, { Post }) => {
-      await Post.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+      try {
+        await Post.findOneAndUpdate(id, { isDeleted: true }, { new: true });
+      }
+      catch (error) {
+        throw new Error(error.message, 400);
+      }
+      
       return { id, message: 'Deleted successfully', success: true };
     },
   },

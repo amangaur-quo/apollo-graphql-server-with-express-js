@@ -36,11 +36,11 @@ const startApp = async () => {
       json(),
       expressMiddleware(apolloServer, {
         context: async ({ req }) => {
-          let { isAuth, user } = req;
+          let { isAuth, authUser } = req;
           return {
             req,
             isAuth,
-            user,
+            authUser,
             ...AppModels,
           };
         },

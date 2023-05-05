@@ -15,4 +15,10 @@ export default gql`
   type Subscription {
     _: String!
   }
+
+  type PushNotification {
+    id: ID!
+    message: String!
+    success: Boolean!
+  }
 `;

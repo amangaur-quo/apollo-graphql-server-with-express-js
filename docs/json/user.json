@@ -1,0 +1,13 @@
+[ 
+	{
+  	"user": {
+    	"email": "aman@yopmail.com",
+    	"name": "Aman Gaur",
+    	"password": "12345678"
+  	}
+	},
+	{
+		"email": "aman@yopmail.com",
+  	"password": "12345678"
+	}
+]

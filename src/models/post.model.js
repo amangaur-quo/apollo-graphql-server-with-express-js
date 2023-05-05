@@ -18,12 +18,20 @@ const postSchema = new Schema(
       ref: 'users',
       type: Schema.Types.ObjectId
     },
-    isDeleted: {
-      type: Boolean,
-      default: false,
+    deletedAt: {
+      type: Date,
+      default: null,
     },
   },
   { timestamps: true }
 );
+
+postSchema.pre('find', function() {
+  this.where({ deletedAt: null });
+});
+
+postSchema.pre('findOne', function() {
+  this.where({ deletedAt: null });
+});
 
 export const Post = model('posts', postSchema);
