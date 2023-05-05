@@ -7,14 +7,14 @@ import mongoose from 'mongoose';
 import * as AppModels from './models';
 import { PORT, DB_URI } from './config';
 import { typeDefs, resolvers } from './graphql';
-import AuthMiddleware from './middlewares/auth';
+import { authMiddleware } from './middlewares';
 import { join } from 'path';
 import { makeExecutableSchema } from '@graphql-tools/schema';
 import { authDirectiveTransformer } from './graphql/directives';
 
 // Initialize the Express Application
 const app = express();
-app.use(AuthMiddleware);
+app.use(authMiddleware);
 app.use(express.static(join(__dirname, './uploads')));
 
 const startApp = async () => {

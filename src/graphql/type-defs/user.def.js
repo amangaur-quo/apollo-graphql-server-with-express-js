@@ -2,16 +2,16 @@ import { gql } from 'graphql-tag';
 
 export default gql`
   extend type Query {
-    authUser: User!
+    authUserProfile: User! @isAuth
     authenticateUser(email: String!, password: String!): AuthResponse!
-    getUsers: [User!]!
-    getUserById(id: ID!): User!
+    getUsers: [User!]! @isAuth
+    getUserById(id: ID!): User! @isAuth
   }
 
   extend type Mutation {
     registerUser(newUser: UserInput!): AuthResponse!
-    editUserById(id: ID!, updatedPost: UserInput!): User!
-    deleteUserById(id: ID!): UserDeletionNotification!
+    editUserById(id: ID!, updatedPost: UserInput!): User! @isAuth
+    deleteUserById(id: ID!): UserDeletionNotification! @isAuth
   }
 
   input UserInput {

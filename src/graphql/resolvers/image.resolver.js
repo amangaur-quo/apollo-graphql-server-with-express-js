@@ -1,6 +1,6 @@
 import { createWriteStream } from 'fs';
 import { join, parse } from 'path';
-import { URL } from "../../config";
+import { URL } from '../../config';
 
 export default {
   Query: {

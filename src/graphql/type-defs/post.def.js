@@ -3,13 +3,13 @@ import { gql } from 'graphql-tag';
 export default gql`
   extend type Query {
     getPosts: [Post!]! @isAuth
-    getPostById(id: ID!): Post!
+    getPostById(id: ID!): Post! @isAuth
   }
 
   extend type Mutation {
     createPost(post: PostInput!): Post! @isAuth
-    editPostById(id: ID!, updatedPost: PostInput!): Post!
-    deletePostById(id: ID!): PushNotification!
+    editPostById(id: ID!, updatedPost: PostInput!): Post! @isAuth
+    deletePostById(id: ID!): PushNotification! @isAuth
   }
 
   input PostInput {
@@ -26,6 +26,7 @@ export default gql`
     createdAt: String
     updatedAt: String
     isDeleted: Boolean
+    author: User!
   }
 
   type PushNotification {

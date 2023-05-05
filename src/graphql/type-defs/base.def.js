@@ -2,6 +2,7 @@ import { gql } from 'graphql-tag';
 
 export default gql`
   directive @isAuth on FIELD_DEFINITION
+  scalar Upload
 
   type Query {
     _: String!

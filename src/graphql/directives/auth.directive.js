@@ -10,7 +10,7 @@ export const authDirectiveTransformer = (schema, directiveName) => {
 
       if (authDirective && authDirective.length && authDirective[0]) {
         const { resolve = defaultFieldResolver } = fieldConfig;
-        fieldConfig.resolve = async function (...args) {
+        fieldConfig.resolve = async (...args) => {
           let [_, {}, { user, isAuth }] = args;
           if (isAuth) {
             const result = await resolve.apply(this, args);

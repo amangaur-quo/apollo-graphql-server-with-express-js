@@ -25,6 +25,8 @@ export default {
       }
     },
 
+    authUserProfile: async (_, {}, { user }) => user,
+
     getUsers: async () => {
       return User.find({ isDeleted: false });
     },

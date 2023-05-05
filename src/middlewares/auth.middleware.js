@@ -2,7 +2,7 @@ import { SECRET } from '../config';
 import { verify } from 'jsonwebtoken';
 import { User } from '../models';
 
-const AuthMiddleware = async (req, res, next) => {
+export const authMiddleware = async (req, res, next) => {
   const authHeaders = req.get('Authorization');
   if (!authHeaders) {
     req.isAuth = false;
@@ -38,5 +38,3 @@ const AuthMiddleware = async (req, res, next) => {
   req.isAuth = true;
   return next();
 };
-
-export default AuthMiddleware;

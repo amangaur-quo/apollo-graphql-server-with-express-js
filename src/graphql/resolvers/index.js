@@ -1,5 +1,5 @@
-import image from './image';
-import post from './post';
-import user from './user';
+import imageResolver from './image.resolver';
+import postResolver from './post.resolver';
+import userResolver from './user.resolver';
 
-export default [image, post, user];
+export default [imageResolver, postResolver, userResolver];

@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 
-const PostSchema = new Schema(
+const postSchema = new Schema(
   {
     title: {
       type: String,
@@ -14,6 +14,10 @@ const PostSchema = new Schema(
       type: String,
       required: false,
     },
+    author: {
+      ref: 'users',
+      type: Schema.Types.ObjectId
+    },
     isDeleted: {
       type: Boolean,
       default: false,
@@ -22,4 +26,4 @@ const PostSchema = new Schema(
   { timestamps: true }
 );
 
-export const Post = model('posts', PostSchema);
+export const Post = model('posts', postSchema);

@@ -1,22 +1,13 @@
-query GET_POSTS {
-  getPosts {
-    id
-    title
-    content
-    featuredImgae
-    createdAt
-    updatedAt
-  }
-}
-
-query GET_POST_BY_ID($postId: ID!) {
-  getPostById(id: $postId) {
-    id
-    title
-    content
-    featuredImgae
-    createdAt
-    updatedAt
+mutation REGISTER_USER($newUser: UserInput!) {
+  registerUser(newUser: $newUser) {
+    user {
+      id
+      email
+      name
+      createdAt
+      updatedAt
+    }
+    token
   }
 }
 
@@ -33,16 +24,13 @@ query AUTHENTICATE_USER($email: String!, $password: String!) {
   }
 }
 
-mutation REGISTER_USER($newUser: UserInput!) {
-  registerUser(newUser: $newUser) {
-    user {
-      id
-      email
-      name
-      createdAt
-      updatedAt
-    }
-    token
+query AUTH_USER_PROFILE {
+  authUserProfile {
+    id
+    name
+    email
+    createdAt
+    updatedAt
   }
 }
 
@@ -54,6 +42,43 @@ mutation CREATE_POST($post: PostInput!) {
     featuredImgae
     createdAt
     updatedAt
+    author {
+      id
+      email
+      name
+    }
+  }
+}
+
+query GET_POSTS {
+  getPosts {
+    id
+    title
+    content
+    featuredImgae
+    createdAt
+    updatedAt
+    author {
+      id
+      email
+      name
+    }
+  }
+}
+
+query GET_POST_BY_ID($postId: ID!) {
+  getPostById(id: $postId) {
+    id
+    title
+    content
+    featuredImgae
+    createdAt
+    updatedAt
+    author {
+      id
+      email
+      name
+    }
   }
 }
 
@@ -74,4 +99,8 @@ mutation DELETE_POST_BY_ID($deletePostById: ID!) {
     message
     success
   }
+}
+
+mutation IMAGE_UPLOADER($file: Upload!) {
+  imageUploader(file: $file)
 }
