@@ -1,4 +1,4 @@
-mutation CREATE_POST($post: PostInput!) {
+mutation CREATE_POST($post: PostCreationInput!) {
   createPost(post: $post) {
     id
     title
@@ -46,7 +46,7 @@ query GET_POST_BY_ID($id: ID!) {
   }
 }
 
-mutation EDIT_POST_BY_ID($id: ID!, $post: PostInput!) {
+mutation EDIT_POST_BY_ID($id: ID!, $post: PostUpdationInput!) {
   editPostById(id: $id, post: $post) {
     id
     title
