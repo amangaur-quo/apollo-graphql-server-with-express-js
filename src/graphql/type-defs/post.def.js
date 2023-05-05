@@ -25,7 +25,7 @@ export default gql`
     featuredImgae: String
     createdAt: String
     updatedAt: String
-    isDeleted: Boolean
+    deletedAt: String
     author: User!
   }
 `;

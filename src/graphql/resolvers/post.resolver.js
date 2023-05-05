@@ -35,7 +35,7 @@ export default {
 
     deletePostById: async (_, { id }, { Post }) => {
       try {
-        await Post.findOneAndUpdate(id, { isDeleted: true }, { new: true });
+        await Post.findOneAndUpdate(id, { deletedAt: new Date() }, { new: true });
       }
       catch (error) {
         throw new Error(error.message, 400);

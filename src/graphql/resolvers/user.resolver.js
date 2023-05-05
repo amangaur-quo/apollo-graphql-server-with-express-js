@@ -60,7 +60,7 @@ export default {
     },
 
     deleteUserById: async (_, { id }, { User }) => {
-      await User.findByIdAndUpdate(id, { isDeleted: true }, { new: true });
+      await User.findByIdAndUpdate(id, { deletedAt: new Date() }, { new: true });
       return { id, message: 'Deleted successfully', success: true };
     },
   },
