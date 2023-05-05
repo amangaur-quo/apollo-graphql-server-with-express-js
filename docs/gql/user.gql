@@ -1,4 +1,4 @@
-mutation REGISTER_USER($user: UserInput!) {
+mutation REGISTER_USER($user: UserCreationInput!) {
   registerUser(user: $user) {
     user {
       id
@@ -41,6 +41,24 @@ query GET_USERS {
     name
     createdAt
     updatedAt
+  }
+}
+
+mutation EDIT_USER_BY_ID($id: ID!, $user: UserUpdationInput!) {
+  editUserById(id: $id, user: $user) {
+    id
+    email
+    name
+    createdAt
+    updatedAt
+  }
+}
+
+mutation DELETE_USER_BY_ID($id: ID!) {
+  deleteUserById(id: $id) {
+    id
+    message
+    success
   }
 }
 

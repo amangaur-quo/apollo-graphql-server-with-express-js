@@ -33,15 +33,18 @@ export default {
       }
     },
 
-    deletePostById: async (_, { id }, { Post }) => {
+    deletePostById: async (_, { id }, { Post, authUser }) => {
       try {
-        await Post.findOneAndUpdate(id, { deletedAt: new Date() }, { new: true });
+        await Post.findOneAndUpdate(
+          { _id: id, author: authUser._id }, 
+          { deletedAt: new Date() }, 
+          { new: true }
+        );
+        return { id, message: 'Deleted successfully', success: true };
       }
       catch (error) {
         throw new Error(error.message, 400);
       }
-      
-      return { id, message: 'Deleted successfully', success: true };
     },
   },
 };
