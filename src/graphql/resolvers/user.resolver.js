@@ -1,5 +1,6 @@
 import { compare, hash } from 'bcrypt';
 import { issueToken, serializeUser } from '../../functions';
+import { validateEmail } from '../../validators';
 
 export default {
   Query: {
@@ -24,7 +25,7 @@ export default {
       }
     },
 
-    authUserProfile: async (_, {}, { authUser }) => authUser, 
+    authUserProfile: async (_, {}, { authUser }) => authUser,
 
     getUsers: async (_, {}, { User }) => {
       return User.find();
@@ -42,14 +43,18 @@ export default {
             'Email already exist. Please try using another email address.'
           );
         }
-        userInfo = new User(user);
-        userInfo.password = await hash(user.password, 10);
-        let newUser = await User.create(userInfo);
-        newUser = newUser.toObject();
-        newUser.id = newUser._id;
-        newUser = serializeUser(newUser);
-        let token = await issueToken(newUser);
-        return { user: newUser, token };
+        if (validateEmail(email)) {
+          userInfo = new User(user);
+          userInfo.password = await hash(user.password, 10);
+          let newUser = await User.create(userInfo);
+          newUser = newUser.toObject();
+          newUser.id = newUser._id;
+          newUser = serializeUser(newUser);
+          let token = await issueToken(newUser);
+          return { user: newUser, token };
+        } else {
+          throw new Error('Please enter a valid email');
+        }
       } catch (error) {
         throw new Error(error.message, 400);
       }
@@ -60,7 +65,11 @@ export default {
     },
 
     deleteUserById: async (_, { id }, { User }) => {
-      await User.findByIdAndUpdate(id, { deletedAt: new Date() }, { new: true });
+      await User.findByIdAndUpdate(
+        id,
+        { deletedAt: new Date() },
+        { new: true }
+      );
       return { id, message: 'Deleted successfully', success: true };
     },
   },
