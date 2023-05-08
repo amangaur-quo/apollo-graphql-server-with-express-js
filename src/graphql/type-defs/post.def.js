@@ -4,6 +4,7 @@ export default gql`
   extend type Query {
     getPosts: [Post!]! @isAuth
     getPostById(id: ID!): Post! @isAuth
+    getPostsByLimitAndPage(page: Int, limit: Int): PostPaginator!
   }
 
   extend type Mutation {
@@ -33,5 +34,22 @@ export default gql`
     updatedAt: String
     deletedAt: String
     author: User!
+  }
+
+  type PostPaginator {
+    posts: [Post!]!
+    paginator: PostLabels
+  }
+
+  type PostLabels {
+    postCount: Int!
+    perPage: Int!
+    pageCount: Int!
+    currentPage: Int!
+    slNo: Int!
+    hasPrevPage: Boolean!
+    hasNextPage: Boolean!
+    prev: Int
+    next: Int
   }
 `;

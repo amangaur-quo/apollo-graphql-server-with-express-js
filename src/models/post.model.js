@@ -1,4 +1,5 @@
 import { Schema, model } from 'mongoose';
+import mongoosePaginate from 'mongoose-paginate-v2';
 
 const postSchema = new Schema(
   {
@@ -33,5 +34,7 @@ postSchema.pre('find', function() {
 postSchema.pre('findOne', function() {
   this.where({ deletedAt: null });
 });
+
+postSchema.plugin(mongoosePaginate);
 
 export const Post = model('posts', postSchema);

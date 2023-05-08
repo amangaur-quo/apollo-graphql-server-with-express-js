@@ -1,3 +1,15 @@
+const myCustomLabels = {
+  totalDocs: 'postCount',
+  docs: 'posts',
+  limit: 'perPage',
+  page: 'currentPage',
+  nextPage: 'next',
+  prevPage: 'prev',
+  totalPages: 'pageCount',
+  pagingCounter: 'slNo',
+  meta: 'paginator',
+};
+
 export default {
   Query: {
     getPosts: async (_, {}, { Post }) => {
@@ -7,6 +19,18 @@ export default {
     getPostById: async (_, { id }, { Post }) => {
       return Post.findById(id).populate('author');
     },
+
+    getPostsByLimitAndPage: async(_, { page, limit }, { Post }) => {
+      const options = {
+        page: page || 1,
+        limit: limit || 10,
+        sort: { createdAt: -1 },
+        populate: 'author',
+        customLabels: myCustomLabels,
+      };
+
+      return Post.paginate({ deletedAt: null }, options);
+    }
   },
 
   Mutation: {
@@ -35,11 +59,15 @@ export default {
 
     deletePostById: async (_, { id }, { Post, authUser }) => {
       try {
-        await Post.findOneAndUpdate(
+        const deletedPost = await Post.findOneAndUpdate(
           { _id: id, author: authUser._id }, 
           { deletedAt: new Date() }, 
           { new: true }
         );
+
+        if (!deletedPost) {
+          throw new Error('Failed to delete the post. Please try again later.');
+        }
         return { id, message: 'Deleted successfully', success: true };
       }
       catch (error) {
