@@ -4,7 +4,7 @@ export default gql`
   extend type Query {
     getPosts: [Post!]! @isAuth
     getPostById(id: ID!): Post! @isAuth
-    getPostsByLimitAndPage(page: Int, limit: Int): PostPaginator!
+    getPostsByLimitAndPage(page: Int, limit: Int): PostPaginator! @isAuth
   }
 
   extend type Mutation {
